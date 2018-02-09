@@ -6,45 +6,8 @@
     <title>Timebox it!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
-    <style>
-      html {
-        background: #e1f7d5;
-        color: #726E75;
-      }
-      input {
-        font-size: 4.17rem;
-        font-weight: 100;
-        color: #726E75;
-        padding: 0 0 1rem;
-        opacity: .8;
-        background: transparent;
-        border-radius: 0;
-        border: none;
-        border-bottom: 2px solid;
-        outline: none;
-        border-bottom-color: #f4f4f4;
-        width: 30%;
-      }
-      label {
-        font-size: 4.0rem;
-      }
-
-      input:focus {
-        outline: none;
-        border: none;
-        border-bottom: 1px solid;
-      }
-      /* For Firefox */
-      input[type='number'] {
-        -moz-appearance:textfield;
-      }
-      /* Webkit browsers like Safari and Chrome */
-      input[type=number]::-webkit-inner-spin-button,
-      input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-    </style>
+    <link rel="stylesheet" href="css/the.css">
+    <script defer src="js/the.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
   </head>
   <body>
@@ -53,65 +16,19 @@
         <h1 class="title">
           Let's Timebox it!
         </h1>
-        <p class="subtitle">
-        </p>
       </div>
     </section>
     <section class="section">
       <div class="container">
         <form id="the-form">
-          <div class="columns">
-            <div class="column">
-              <label class="label">minutes</label>
-              <input id="minutes" name="minutes" type="number" autofocus />
-              <label class="label">seconds</label>
-              <input id="seconds" name="seconds" type="number" />
-              <input hidden type="submit" />
-            </div>
-          </div>
+          <label class="label">minutes</label>
+          <input id="minutes" name="minutes" type="number" autofocus />
+          <label class="label">seconds</label>
+          <input id="seconds" name="seconds" type="number" />
+          <input hidden type="submit" />
         </form>
         <div id="the-timer"></div>
       </div>
       <section>
   </body>
-</html>
-
-<script>
-
-  var timeLeft = 0;
-
-const form = document.getElementById("the-form")
-console.log(form)
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  var formData = new FormData(form)
-  const minutes = formData.get("minutes")
-  const seconds = formData.get("seconds")
-
-  const total = (minutes * 60) + seconds;
-  console.log(total);
-  timeLeft = total;
-
-  startTimer(total);
-  tick();
-})
-
-const startTimer = (seconds) => {
-  document.getElementById("the-form").setAttribute("hidden", true)
-  setTimeout(function(){
-    alert("Your time is up!");
-  }, (seconds * 1000));
-}
-
-const tick = () => {
-  setInterval(() => {
-    if (timeLeft > 1) { timeLeft -= 1; document.getElementById("the-timer").innerHTML = timeLeft; }
-    else {document.getElementById("the-timer").innerHTML = "Time's Up!";}
-  }, 1000)
-}
-
-</script>
-
 </html>
