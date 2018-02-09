@@ -40,7 +40,7 @@ const timeFormatter = (seconds) => {
 const tick = () => {
   document.getElementById("the-timer").innerHTML = timeFormatter(timeLeft);
   setInterval(() => {
-    if (timeLeft > 1) {
+    if (timeLeft >= 1) {
       document.getElementById("the-timer").innerHTML = timeFormatter(timeLeft);
       document.title = timeFormatter(timeLeft);
       timeLeft -= 1;
