@@ -1,27 +1,45 @@
-var timeLeft = 0;
-var lock = false;
+let timeLeft = 0;
+let timer;
+mixpanel.track("pageview");
 
 const form = document.getElementById("the-form")
-console.log(form)
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  var formData = new FormData(form)
-  const minutes = parseInt(formData.get("minutes"))
-  const seconds = parseInt(formData.get("seconds"))
-  const total = (minutes * 60) + seconds;
+  const formData = new FormData(form)
+  const minutes = parseInt(formData.get("minutes")) || 0
+  const seconds = parseInt(formData.get("seconds")) || 0
+  const total = (minutes * 60) + seconds
   timeLeft = total;
 
-  tick();
-  startTimer(total);
+  console.log(minutes)
+  console.log(seconds)
+
+  hideForm()
+  setLabels(timeFormatter(timeLeft));
+  timer = window.setInterval(tick, 1000)
+  mixpanel.track(`Timer started: ${timeFormatter(timeLeft)}`);
 })
 
-const startTimer = (seconds) => {
+function tick() {
+  if (timeLeft > 0) {
+    timeLeft -= 1;
+    setLabels(timeFormatter(timeLeft));
+  } else {
+    setLabels("Time's Up!")
+    clearInterval(timer)
+    alert("Time's Up!")
+  }
+}
+
+function hideForm() {
   document.getElementById("the-form").className += " hidden"
-  setTimeout(function(){
-    alert("Your time is up!");
-  }, (seconds * 1000));
+}
+
+const setLabels = (text) => {
+  document.getElementById("the-timer").innerHTML = text;
+  document.title = text;
 }
 
 const timeFormatter = (seconds) => {
@@ -35,18 +53,4 @@ const timeFormatter = (seconds) => {
   } else {
     return `${seconds} seconds left`
   }
-}
-
-const tick = () => {
-  document.getElementById("the-timer").innerHTML = timeFormatter(timeLeft);
-  setInterval(() => {
-    if (timeLeft >= 1) {
-      document.getElementById("the-timer").innerHTML = timeFormatter(timeLeft);
-      document.title = timeFormatter(timeLeft);
-      timeLeft -= 1;
-    } else {
-      document.getElementById("the-timer").innerHTML = "Time's Up!";
-      document.title = "Time's up!"
-    }
-  }, 1000)
 }
