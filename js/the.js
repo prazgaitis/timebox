@@ -1,5 +1,7 @@
 let timeLeft = 0;
 let timer;
+let timeout;
+
 mixpanel.track("pageview");
 
 const form = document.getElementById("the-form")
@@ -13,12 +15,10 @@ form.addEventListener("submit", (event) => {
   const total = (minutes * 60) + seconds
   timeLeft = total;
 
-  console.log(minutes)
-  console.log(seconds)
-
   hideForm()
   setLabels(timeFormatter(timeLeft));
   timer = window.setInterval(tick, 1000)
+  timeout = window.setTimeout(()=> alert("Time's up!"), ((1 + timeLeft) * 1000))
   mixpanel.track(`Timer started: ${timeFormatter(timeLeft)}`);
 })
 
@@ -27,9 +27,8 @@ function tick() {
     timeLeft -= 1;
     setLabels(timeFormatter(timeLeft));
   } else {
-    setLabels("Time's Up!")
+    setLabels("Time's up!")
     clearInterval(timer)
-    alert("Time's Up!")
   }
 }
 
